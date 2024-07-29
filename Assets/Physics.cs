@@ -33,4 +33,8 @@ public class Physics : MonoBehaviour
         if(other.name == "JumpZone")
             myRigid.AddForce(Vector3.up, ForceMode.Impulse);
     }
+    public void ResetPosition(){
+        Debug.Log("print");
+        transform.position = new Vector3(0, 3, 0);
+    }
 }
