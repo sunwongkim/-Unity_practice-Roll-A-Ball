@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerBall : MonoBehaviour
 {
     Rigidbody myRigid;
     AudioSource myAudio;
+    public GameManagerLogic manager;
 
     public int itemCount = 0;
     public float jumpPower = 10;
@@ -50,6 +52,12 @@ public class PlayerBall : MonoBehaviour
             Debug.Log("itemCount: " + itemCount);
             myAudio.Play();
             other.gameObject.SetActive(false);
+        } else if (other.tag == "Finish"){
+            if (itemCount == manager.totalItemCount){ // Game Clear
+                SceneManager.LoadScene("SampleScene2");
+            } else { // Restart
+                SceneManager.LoadScene("SampleScene1");
+            }
         }
     }
 }
