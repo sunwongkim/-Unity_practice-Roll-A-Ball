@@ -3,12 +3,16 @@ using UnityEngine;
 public class PlayerBall : MonoBehaviour
 {
     Rigidbody myRigid;
+    AudioSource myAudio;
+
+    public int itemCount = 0;
     public float jumpPower = 10;
-    bool isJump;  
+    bool isJump;
     
     void Awake()
     {
         myRigid = GetComponent<Rigidbody>();
+        myAudio = GetComponent<AudioSource>();
         isJump = false;
     }
     
@@ -23,8 +27,7 @@ public class PlayerBall : MonoBehaviour
         // W,A,S,D 이동
         float front = Input.GetAxisRaw("Horizontal");
         float side = Input.GetAxisRaw("Vertical");
-        Vector3 vec = new Vector3(side, 0, front);
-        myRigid.AddForce(vec, ForceMode.Impulse);
+        myRigid.AddForce(new Vector3(side, 0, -front), ForceMode.Impulse);
 
         // 점프
         // if(Input.GetKey(KeyCode.Space) && !isJump){ // 1단 점프
@@ -36,7 +39,17 @@ public class PlayerBall : MonoBehaviour
     
     void OnCollisionEnter(Collision Collision)
     {
-        if (Collision.gameObject.name == "Floor")   
+        if (Collision.gameObject.tag == "Floor")   
             isJump = false;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Item"){
+            itemCount++;
+            Debug.Log("itemCount: " + itemCount);
+            myAudio.Play();
+            other.gameObject.SetActive(false);
+        }
     }
 }
