@@ -8,7 +8,7 @@ public class PlayerBall : MonoBehaviour
     public GameManagerLogic manager;
 
     public int itemCount = 0;
-    public float jumpPower = 10;
+    public float jumpPower = 5;
     bool isJump;
     
     void Awake()
@@ -55,6 +55,7 @@ public class PlayerBall : MonoBehaviour
         } else if (other.tag == "Finish"){
             if (itemCount == manager.totalItemCount){ // Game Clear
                 SceneManager.LoadScene("SampleScene2");
+                // SceneManager.LoadScene("SampleScene" + manager.stage);
             } else { // Restart
                 SceneManager.LoadScene("SampleScene1");
             }
