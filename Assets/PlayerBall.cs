@@ -38,7 +38,7 @@ public class PlayerBall : MonoBehaviour
             myRigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         }
     }
-    
+
     void OnCollisionEnter(Collision Collision)
     {
         if (Collision.gameObject.tag == "Floor")   
@@ -47,17 +47,19 @@ public class PlayerBall : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Scene currentScene = SceneManager.GetActiveScene();
         if (other.tag == "Item"){
             itemCount++;
             Debug.Log("itemCount: " + itemCount);
             myAudio.Play();
             other.gameObject.SetActive(false);
+        } else if (other.tag == "GameManager"){ // 공 추락
+            SceneManager.LoadScene(currentScene.name);
         } else if (other.tag == "Finish"){
             if (itemCount == manager.totalItemCount){ // Game Clear
-                SceneManager.LoadScene("SampleScene2");
-                // SceneManager.LoadScene("SampleScene" + manager.stage);
+                SceneManager.LoadScene("Scene2");
             } else { // Restart
-                SceneManager.LoadScene("SampleScene1");
+                SceneManager.LoadScene(currentScene.name);
             }
         }
     }
