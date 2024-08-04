@@ -8,6 +8,7 @@ public class PlayerBall : MonoBehaviour
     public GameManagerLogic manager;
 
     public int itemCount = 0;
+    public float movePower = 1;
     public float jumpPower = 5;
     bool isJump;
     
@@ -29,11 +30,11 @@ public class PlayerBall : MonoBehaviour
         // W,A,S,D 이동
         float front = Input.GetAxisRaw("Horizontal");
         float side = Input.GetAxisRaw("Vertical");
-        myRigid.AddForce(new Vector3(side, 0, -front), ForceMode.Impulse);
+        myRigid.AddForce(new Vector3(side, 0, -front) * movePower, ForceMode.Impulse);
 
         // 점프
-        // if(Input.GetKey(KeyCode.Space) && !isJump){ // 1단 점프
-        if(Input.GetKey(KeyCode.Space)){
+        // if(Input.GetKey(KeyCode.Space)){
+        if(Input.GetKey(KeyCode.Space) && !isJump){ // 1단 점프
             isJump = true;
             myRigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         }
@@ -53,6 +54,7 @@ public class PlayerBall : MonoBehaviour
             Debug.Log("itemCount: " + itemCount);
             myAudio.Play();
             other.gameObject.SetActive(false);
+            manager.GetItemCount(itemCount);
         } else if (other.tag == "GameManager"){ // 공 추락
             SceneManager.LoadScene(currentScene.name);
         } else if (other.tag == "Finish"){
