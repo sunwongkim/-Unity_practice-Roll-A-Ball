@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,8 +9,8 @@ public class PlayerBall : MonoBehaviour
     public GameManagerLogic manager;
 
     public int itemCount = 0;
-    public float movePower = 1;
-    public float jumpPower = 5;
+    public float movePower;
+    public float jumpPower;
     bool isJump;
     
     void Awake()
@@ -23,6 +24,9 @@ public class PlayerBall : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R)) // 위치 초기화
             transform.position = new Vector3(0, 3, 0);
+    
+        if (Input.GetKeyDown(KeyCode.G)) // 처음 스크린으로 이동
+            SceneManager.LoadScene("Scene1");
     }
 
     void FixedUpdate()

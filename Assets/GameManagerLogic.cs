@@ -5,15 +5,16 @@ using UnityEngine.UI;
 public class GameManagerLogic : MonoBehaviour
 {
     public Text CountText;
-    public int totalItemCount = 0;
-    public int stage = 0;
+    public int totalItemCount;
+    public int stage;
 
     void Start()
     {
         GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
         totalItemCount = items.Length;
 
-        CountText.text = "0 / " + totalItemCount; // UI
+        if (CountText != null) // UI
+            CountText.text = "0 / " + totalItemCount; 
         
         stage = SceneManager.GetActiveScene().buildIndex; // Scene index
     }
