@@ -7,7 +7,7 @@ public class PlayerBall : MonoBehaviour
     Rigidbody myRigid;
     AudioSource myAudio;
     public GameManagerLogic manager;
-
+    public FixedJoystick joy;
     public int itemCount = 0;
     public float movePower;
     public float jumpPower;
@@ -34,7 +34,10 @@ public class PlayerBall : MonoBehaviour
         // W,A,S,D 이동
         float front = Input.GetAxisRaw("Horizontal");
         float side = Input.GetAxisRaw("Vertical");
-        myRigid.AddForce(new Vector3(side, 0, -front) * movePower, ForceMode.Impulse);
+        myRigid.AddForce(new Vector3(front, 0, side) * movePower, ForceMode.Impulse);
+
+        myRigid.AddForce(new Vector3(joy.Horizontal, 0, joy.Vertical) * movePower, ForceMode.Impulse);
+
 
         // 점프
         // if(Input.GetKey(KeyCode.Space)){
@@ -67,6 +70,14 @@ public class PlayerBall : MonoBehaviour
             } else { // Restart
                 SceneManager.LoadScene(currentScene.name);
             }
+        }
+    }
+
+    public void Jump()
+    {
+        if (!isJump){
+            isJump = true;
+            myRigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         }
     }
 }
