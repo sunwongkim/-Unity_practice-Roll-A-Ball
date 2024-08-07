@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene(currentScene.name);
         } else if (other.tag == "Flag"){
             if (itemCount == manager.totalItemCount){ // Game Clear
-                SceneManager.LoadScene("Scene2");
+                SceneManager.LoadScene(currentScene.buildIndex + 1); // 다음 씬
             } else { // Restart
                 SceneManager.LoadScene(currentScene.name);
             }
