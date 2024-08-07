@@ -1,8 +1,10 @@
+// 할거: snapX,Y , 바닥 큐브로 대체, 프리펩
+
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerBall : MonoBehaviour
+public class Player : MonoBehaviour
 {
     Rigidbody myRigid;
     AudioSource myAudio;
@@ -20,6 +22,14 @@ public class PlayerBall : MonoBehaviour
         isJump = false;
     }
     
+    void Start()
+    {
+        if (joy != null){
+            joy.SnapX = true;
+            joy.SnapY = true;
+        }
+    }
+    
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.R)) // 위치 초기화
@@ -35,9 +45,9 @@ public class PlayerBall : MonoBehaviour
         float front = Input.GetAxisRaw("Horizontal");
         float side = Input.GetAxisRaw("Vertical");
         myRigid.AddForce(new Vector3(front, 0, side) * movePower, ForceMode.Impulse);
-
-        myRigid.AddForce(new Vector3(joy.Horizontal, 0, joy.Vertical) * movePower, ForceMode.Impulse);
-
+        
+        if (joy != null) // 조이스틱
+            myRigid.AddForce(new Vector3(joy.Horizontal, 0, joy.Vertical) * movePower, ForceMode.Impulse);
 
         // 점프
         // if(Input.GetKey(KeyCode.Space)){
@@ -64,7 +74,7 @@ public class PlayerBall : MonoBehaviour
             manager.GetItemCount(itemCount);
         } else if (other.tag == "GameManager"){ // 공 추락
             SceneManager.LoadScene(currentScene.name);
-        } else if (other.tag == "Finish"){
+        } else if (other.tag == "Flag"){
             if (itemCount == manager.totalItemCount){ // Game Clear
                 SceneManager.LoadScene("Scene2");
             } else { // Restart
